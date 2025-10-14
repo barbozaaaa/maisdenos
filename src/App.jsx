@@ -8,6 +8,7 @@ import Impact from './components/Impact'
 import PhotoGallery from './components/PhotoGallery'
 import DonationForm from './components/DonationForm'
 import FAQ from './components/FAQ'
+import CRM from './components/CRM'
 import Footer from './components/Footer'
 import './App.css'
 
@@ -22,6 +23,7 @@ function App() {
       <PhotoGallery />
       <DonationForm />
       <FAQ />
+      <CRM />
       <Footer />
       <ToastContainer
         position="top-right"

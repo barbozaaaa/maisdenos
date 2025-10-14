@@ -6,18 +6,23 @@
 -- Criar tabela de doações
 CREATE TABLE doacoes (
   id BIGSERIAL PRIMARY KEY,
-  nome VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
+  nome_doador VARCHAR(255) NOT NULL,
+  email_doador VARCHAR(255) NOT NULL,
+  telefone_doador VARCHAR(20),
   tipo_doacao VARCHAR(50) NOT NULL CHECK (tipo_doacao IN ('dinheiro', 'roupas', 'brinquedos', 'alimentos', 'outros_bens')),
   descricao TEXT,
   valor DECIMAL(10, 2),
-  criado_em TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  status VARCHAR(20) DEFAULT 'pendente' CHECK (status IN ('pendente', 'confirmada', 'processada', 'cancelada')),
+  observacoes TEXT,
+  criado_em TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Criar índices para melhor performance
 CREATE INDEX idx_doacoes_criado_em ON doacoes(criado_em DESC);
 CREATE INDEX idx_doacoes_tipo ON doacoes(tipo_doacao);
-CREATE INDEX idx_doacoes_email ON doacoes(email);
+CREATE INDEX idx_doacoes_email ON doacoes(email_doador);
+CREATE INDEX idx_doacoes_status ON doacoes(status);
 
 -- Habilitar RLS (Row Level Security)
 ALTER TABLE doacoes ENABLE ROW LEVEL SECURITY;
@@ -35,12 +40,16 @@ CREATE POLICY "Permitir leitura de doações" ON doacoes
 -- Comentários nas colunas (documentação)
 COMMENT ON TABLE doacoes IS 'Tabela para armazenar todas as doações recebidas pela ONG Mais de Nós';
 COMMENT ON COLUMN doacoes.id IS 'Identificador único da doação';
-COMMENT ON COLUMN doacoes.nome IS 'Nome completo do doador';
-COMMENT ON COLUMN doacoes.email IS 'E-mail de contato do doador';
+COMMENT ON COLUMN doacoes.nome_doador IS 'Nome completo do doador';
+COMMENT ON COLUMN doacoes.email_doador IS 'E-mail de contato do doador';
+COMMENT ON COLUMN doacoes.telefone_doador IS 'Telefone de contato do doador';
 COMMENT ON COLUMN doacoes.tipo_doacao IS 'Tipo de doação: dinheiro, roupas, brinquedos, alimentos ou outros_bens';
 COMMENT ON COLUMN doacoes.descricao IS 'Descrição detalhada da doação';
 COMMENT ON COLUMN doacoes.valor IS 'Valor em dinheiro (apenas para tipo_doacao = dinheiro)';
+COMMENT ON COLUMN doacoes.status IS 'Status da doação: pendente, confirmada, processada ou cancelada';
+COMMENT ON COLUMN doacoes.observacoes IS 'Observações adicionais sobre a doação';
 COMMENT ON COLUMN doacoes.criado_em IS 'Data e hora em que a doação foi registrada';
+COMMENT ON COLUMN doacoes.atualizado_em IS 'Data e hora da última atualização da doação';
 
 -- ============================================
 -- Tabela de Voluntários

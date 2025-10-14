@@ -7,6 +7,7 @@ const DonationForm = () => {
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
+    telefone: '',
     tipoDoacao: '',
     descricao: '',
     valor: ''
@@ -40,8 +41,9 @@ const DonationForm = () => {
         .from('doacoes')
         .insert([
           {
-            nome: formData.nome,
-            email: formData.email,
+            nome_doador: formData.nome,
+            email_doador: formData.email,
+            telefone_doador: formData.telefone,
             tipo_doacao: formData.tipoDoacao,
             descricao: formData.descricao,
             valor: formData.tipoDoacao === 'dinheiro' && formData.valor ? parseFloat(formData.valor) : null
@@ -56,6 +58,7 @@ const DonationForm = () => {
         setFormData({
           nome: '',
           email: '',
+          telefone: '',
           tipoDoacao: '',
           descricao: '',
           valor: ''
@@ -140,6 +143,22 @@ const DonationForm = () => {
                   onChange={handleChange}
                   placeholder="seuemail@exemplo.com"
                   required
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="telefone">
+                  <span className="label-icon">📱</span>
+                  Telefone
+                </label>
+                <input
+                  type="tel"
+                  id="telefone"
+                  name="telefone"
+                  value={formData.telefone}
+                  onChange={handleChange}
+                  placeholder="(11) 99999-9999"
                   className="form-input"
                 />
               </div>

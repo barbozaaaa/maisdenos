@@ -42,6 +42,12 @@ const Header = () => {
           <a onClick={() => scrollToSection('doar')}>Doar</a>
           <a onClick={() => scrollToSection('faq')}>FAQ</a>
           <button 
+            className="btn-crm-header"
+            onClick={() => scrollToSection('crm')}
+          >
+            📊 CRM
+          </button>
+          <button 
             className="btn-doar-header"
             onClick={() => scrollToSection('doar')}
           >
