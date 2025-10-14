@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="footer-section about-section">
             <div className="footer-logo">
               <div className="footer-logo-icon">
-                <span className="footer-logo-emoji">❤️</span>
+                <img src="/IMG/logo.png" alt="+1 Mais de Nós" className="footer-logo-image" />
               </div>
               <div className="footer-logo-text">
                 <h3>+1</h3>

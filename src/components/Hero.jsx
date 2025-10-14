@@ -19,7 +19,7 @@ const Hero = () => {
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-logo">
-            <span className="hero-logo-emoji">❤️</span>
+            <img src="/IMG/logo.png" alt="+1 Mais de Nós" className="hero-logo-image" />
           </div>
           
           <div className="hero-badge">

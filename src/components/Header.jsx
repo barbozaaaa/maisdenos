@@ -26,7 +26,7 @@ const Header = () => {
       <div className="header-container">
         <div className="logo-section" onClick={() => scrollToSection('hero')}>
           <div className="logo-icon">
-            <span className="logo-emoji">❤️</span>
+            <img src="/IMG/logo.png" alt="+1 Mais de Nós" className="logo-image" />
           </div>
           <div className="logo-text">
             <h1>+1</h1>
