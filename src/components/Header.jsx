@@ -26,10 +26,10 @@ const Header = () => {
       <div className="header-container">
         <div className="logo-section" onClick={() => scrollToSection('hero')}>
           <div className="logo-icon">
-            <img src="/src/logo.png" alt="+1 Mais de Nós" className="logo-image" />
+            <span className="logo-emoji">❤️</span>
           </div>
           <div className="logo-text">
-            
+            <h1>+1</h1>
             <p>Mais de Nós</p>
           </div>
         </div>
