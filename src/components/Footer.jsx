@@ -33,10 +33,10 @@ const Footer = () => {
               <a href="https://www.instagram.com/maisdenosps" target="_blank" rel="noopener noreferrer" aria-label="Instagram Stories">
                 <span>✨</span>
               </a>
-              <a href="mailto:contato@maisdenós.org.br" target="_blank" rel="noopener noreferrer" aria-label="Email">
+              <a href="mailto:Maisdenoss@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email">
                 <span>📧</span>
               </a>
-              <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+              <a href="https://wa.me/5511988839105" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                 <span>💬</span>
               </a>
             </div>
@@ -67,11 +67,11 @@ const Footer = () => {
             <ul className="footer-contact">
               <li>
                 <span className="contact-icon">📧</span>
-                <a href="mailto:contato@maisdenós.org.br">contato@maisdenós.org.br</a>
+                <a href="mailto:Maisdenoss@gmail.com">Maisdenoss@gmail.com</a>
               </li>
               <li>
                 <span className="contact-icon">📱</span>
-                <a href="tel:+5511999999999">(11) 99999-9999</a>
+                <a href="tel:+5511988839105">(11) 98883-9105</a>
               </li>
               <li>
                 <span className="contact-icon">📍</span>

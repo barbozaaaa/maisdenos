@@ -126,8 +126,8 @@ Este é um projeto social, e contribuições são bem-vindas! Se você quiser aj
 ## 📞 Contato
 
 - **Instagram**: [@maisdenosps](https://www.instagram.com/maisdenosps)
-- **Email**: contato@maisdenós.org.br
-- **WhatsApp**: (11) 99999-9999
+- **Email**: Maisdenoss@gmail.com
+- **WhatsApp**: (11) 98883-9105
 
 ## 🙏 Missão
 

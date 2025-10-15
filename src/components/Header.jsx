@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import './Header.css'
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,10 +26,51 @@ const Header = () => {
     }
   }
 
+  // Fechar menu ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mobileMenuOpen && !event.target.closest('.nav-menu') && !event.target.closest('.mobile-menu-btn')) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    if (mobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside)
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+      document.body.style.overflow = 'unset'
+    }
+  }, [mobileMenuOpen])
+
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      navigate('/')
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error)
+    }
+  }
+
+  const isHomePage = location.pathname === '/'
+
   return (
-    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-      <div className="header-container">
-        <div className="logo-section" onClick={() => scrollToSection('hero')}>
+    <>
+      {/* Overlay para menu mobile */}
+      {mobileMenuOpen && (
+        <div 
+          className="mobile-menu-overlay"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+      
+      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+        <div className="header-container">
+        <div className="logo-section" onClick={() => isHomePage ? scrollToSection('hero') : navigate('/')}>
           <div className="logo-icon">
             <img src="/IMG/logo.png" alt="+1 Mais de Nós" className="logo-image" />
           </div>
@@ -35,28 +81,47 @@ const Header = () => {
         </div>
 
         <nav className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
-          <a onClick={() => scrollToSection('eventos')}>Eventos</a>
-          <a onClick={() => scrollToSection('sobre')}>Sobre</a>
-          <a onClick={() => scrollToSection('voluntario')}>Voluntários</a>
-          <a onClick={() => scrollToSection('galeria')}>Galeria</a>
-          <a onClick={() => scrollToSection('doar')}>Doar</a>
-          <a onClick={() => scrollToSection('faq')}>FAQ</a>
-          <button 
-            className="btn-crm-header"
-            onClick={() => scrollToSection('crm')}
-          >
-            📊 CRM
-          </button>
-          <button 
-            className="btn-doar-header"
-            onClick={() => scrollToSection('doar')}
-          >
-            💝 Quero Doar
-          </button>
+          {isHomePage ? (
+            <>
+              <a onClick={() => scrollToSection('eventos')}>📅 Eventos</a>
+              <a onClick={() => scrollToSection('sobre')}>ℹ️ Sobre</a>
+              <a onClick={() => scrollToSection('voluntario')}>👥 Voluntários</a>
+              <a onClick={() => scrollToSection('galeria')}>📸 Galeria</a>
+              <a onClick={() => scrollToSection('doar')}>💝 Doar</a>
+              <a onClick={() => scrollToSection('faq')}>❓ FAQ</a>
+              <a onClick={() => scrollToSection('crm')}>📊 CRM</a>
+              <button 
+                className="btn-doar-header"
+                onClick={() => scrollToSection('doar')}
+              >
+                💝 Quero Doar
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/">🏠 Início</Link>
+              {user ? (
+                <>
+                  <Link to="/crm">📊 CRM</Link>
+                  <button 
+                    className="btn-logout-header"
+                    onClick={handleLogout}
+                  >
+                    🚪 Sair
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">🔑 Entrar</Link>
+                  <Link to="/register">📝 Cadastrar</Link>
+                </>
+              )}
+            </>
+          )}
         </nav>
 
         <button 
-          className="mobile-menu-btn"
+          className={`mobile-menu-btn ${mobileMenuOpen ? 'active' : ''}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Menu"
         >
@@ -66,6 +131,7 @@ const Header = () => {
         </button>
       </div>
     </header>
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { toast } from 'react-toastify'
+import { sendVolunteerConfirmation, notifyOrganizationVolunteer } from '../services/simpleEmailService'
 import './Impact.css'
 
 const Impact = () => {
@@ -49,14 +50,33 @@ const Impact = () => {
         throw error
       }
 
-      toast.success('Cadastro realizado com sucesso! Entraremos em contato em breve.', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
+      // Enviar emails de confirmação
+      try {
+        // Email de confirmação para o voluntário
+        await sendVolunteerConfirmation(formData)
+        
+        // Notificação para a organização
+        await notifyOrganizationVolunteer(formData)
+        
+        toast.success('Cadastro realizado com sucesso! Email de confirmação processado!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        })
+      } catch (emailError) {
+        console.log('Email não enviado, mas cadastro realizado:', emailError)
+        toast.success('Cadastro realizado com sucesso! Entraremos em contato em breve.', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        })
+      }
 
       setIsSubmitted(true)
       

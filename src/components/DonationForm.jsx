@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { toast } from 'react-toastify'
+import { sendDonationConfirmation, notifyOrganizationDonation } from '../services/professionalEmailService'
 import './DonationForm.css'
 
 const DonationForm = () => {
@@ -52,6 +53,20 @@ const DonationForm = () => {
 
       if (error) throw error
 
+      // Enviar emails de confirmação
+      try {
+        // Email de confirmação para o doador
+        await sendDonationConfirmation(formData)
+        
+        // Notificação para a organização
+        await notifyOrganizationDonation(formData)
+        
+        toast.success('🎉 Doação registrada com sucesso! Email de confirmação enviado com carinho! ❤️')
+      } catch (emailError) {
+        console.log('Email não enviado, mas doação registrada:', emailError)
+        toast.success('🎉 Doação registrada com sucesso! Que Deus abençoe sua generosidade! ❤️')
+      }
+
       setShowSuccess(true)
       
       setTimeout(() => {
@@ -65,8 +80,6 @@ const DonationForm = () => {
         })
         setShowSuccess(false)
       }, 3000)
-
-      toast.success('🎉 Doação registrada com sucesso! Muito obrigado! ❤️')
     } catch (error) {
       console.error('Erro ao registrar doação:', error)
       toast.error('😢 Ops! Algo deu errado. Tente novamente.')
@@ -89,7 +102,7 @@ const DonationForm = () => {
             ✓
           </div>
           <h2>Obrigado por doar! ❤️</h2>
-          <p>Sua generosidade transforma vidas!</p>
+          <p>Sua generosidade transforma vidas e espalha o amor de Cristo!</p>
         </div>
       )}
       

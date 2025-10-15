@@ -94,11 +94,11 @@ const FAQ = () => {
                 dos nossos canais de comunicação.
               </p>
               <div className="contact-methods">
-                <a href="mailto:contato@maisdenós.org.br" className="contact-btn">
+                <a href="mailto:Maisdenoss@gmail.com" className="contact-btn">
                   <span>📧</span>
                   E-mail
                 </a>
-                <a href="https://wa.me/5511999999999" className="contact-btn" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/5511988839105" className="contact-btn" target="_blank" rel="noopener noreferrer">
                   <span>📱</span>
                   WhatsApp
                 </a>
