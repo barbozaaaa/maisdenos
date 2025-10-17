@@ -6,6 +6,11 @@ import './Header.css'
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const toggleMobileMenu = () => {
+    console.log('Menu toggle clicked, current state:', mobileMenuOpen)
+    setMobileMenuOpen(!mobileMenuOpen)
+  }
   const { user, signOut, isAdmin } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -118,8 +123,18 @@ const Header = () => {
 
         <button 
           className={`mobile-menu-btn ${mobileMenuOpen ? 'active' : ''}`}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            toggleMobileMenu()
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            toggleMobileMenu()
+          }}
           aria-label="Menu"
+          type="button"
         >
           <span></span>
           <span></span>
