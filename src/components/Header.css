@@ -552,12 +552,11 @@
 
   .nav-menu.open {
     max-height: 500px;
-    padding: 1rem 0;
-    border: 2px solid #667eea;
+    padding: 0.5rem 0;
   }
 
   .nav-menu a {
-    padding: 1rem 2rem;
+    padding: 0.8rem 2rem;
     width: 100%;
     text-align: center;
     border-bottom: 1px solid rgba(240, 240, 240, 0.5);
@@ -587,10 +586,10 @@
 
   .btn-logout-header,
   .btn-login-header {
-    margin: 1rem 2rem 0.5rem 2rem;
+    margin: 0.5rem 2rem;
     width: calc(100% - 4rem);
-    font-size: 1.1rem;
-    padding: 18px 40px;
+    font-size: 1rem;
+    padding: 14px 32px;
     display: block !important;
     opacity: 1;
     visibility: visible;
