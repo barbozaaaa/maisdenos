@@ -8,7 +8,6 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
-    console.log('Menu toggle clicked, current state:', mobileMenuOpen)
     setMobileMenuOpen(!mobileMenuOpen)
   }
   const { user, signOut, isAdmin } = useAuth()
@@ -122,23 +121,12 @@ const Header = () => {
         </nav>
 
         <button 
-          className={`mobile-menu-btn ${mobileMenuOpen ? 'active' : ''}`}
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            toggleMobileMenu()
-          }}
-          onTouchStart={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            toggleMobileMenu()
-          }}
+          className="mobile-menu-btn"
+          onClick={toggleMobileMenu}
           aria-label="Menu"
           type="button"
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          ☰ Menu
         </button>
       </div>
     </header>
