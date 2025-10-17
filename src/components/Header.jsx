@@ -8,6 +8,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
+    console.log('Toggle menu - current state:', mobileMenuOpen)
     setMobileMenuOpen(!mobileMenuOpen)
   }
   const { user, signOut, isAdmin } = useAuth()
