@@ -5,11 +5,6 @@ import './Header.css'
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen)
-  }
   const { user, signOut, isAdmin } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -26,30 +21,8 @@ const Header = () => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
-      setMobileMenuOpen(false)
     }
   }
-
-  // Fechar menu ao clicar fora
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (mobileMenuOpen && !event.target.closest('.nav-menu') && !event.target.closest('.mobile-menu-btn')) {
-        setMobileMenuOpen(false)
-      }
-    }
-
-    if (mobileMenuOpen) {
-      document.addEventListener('click', handleClickOutside)
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside)
-      document.body.style.overflow = 'unset'
-    }
-  }, [mobileMenuOpen])
 
   const handleLogout = async () => {
     try {
@@ -63,17 +36,8 @@ const Header = () => {
   const isHomePage = location.pathname === '/'
 
   return (
-    <>
-      {/* Overlay para menu mobile */}
-      {mobileMenuOpen && (
-        <div 
-          className="mobile-menu-overlay"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-      
-      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-        <div className="header-container">
+    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+      <div className="header-container">
         <div className="logo-section" onClick={() => isHomePage ? scrollToSection('hero') : navigate('/')}>
           <div className="logo-icon">
             <img src="/IMG/logo.png" alt="+1 Mais de Nós" className="logo-image" />
@@ -84,7 +48,7 @@ const Header = () => {
           </div>
         </div>
 
-        <nav className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
+        <nav className="nav-menu">
           {isHomePage ? (
             <>
               <a onClick={() => scrollToSection('eventos')}>📅 Eventos</a>
@@ -119,18 +83,8 @@ const Header = () => {
             </>
           )}
         </nav>
-
-        <button 
-          className="mobile-menu-btn"
-          onClick={toggleMobileMenu}
-          aria-label="Menu"
-          type="button"
-        >
-          ☰ Menu
-        </button>
       </div>
     </header>
-    </>
   )
 }
 
