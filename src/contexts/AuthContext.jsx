@@ -14,6 +14,24 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isAdminLogged, setIsAdminLogged] = useState(false);
+
+  // Função para verificar se o usuário é admin
+  const isAdmin = (user) => {
+    // Verificar se está logado como admin via palavra-chave
+    if (isAdminLogged) return true;
+    
+    // Verificar se o email está na lista de admins (fallback)
+    if (!user) return false;
+    
+    const adminEmails = [
+      'admin@maisdenos.online',
+      'contato@maisdenos.online',
+      'gestao@maisdenos.online'
+    ];
+    
+    return adminEmails.includes(user.email?.toLowerCase());
+  };
 
   useEffect(() => {
     // Get initial session
@@ -53,6 +71,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
+    // Resetar estado de admin
+    setIsAdminLogged(false);
     const { error } = await supabase.auth.signOut();
     return { error };
   };
@@ -60,6 +80,9 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
+    isAdmin: isAdmin(user),
+    isAdminLogged,
+    setIsAdminLogged,
     signUp,
     signIn,
     signOut,
@@ -71,3 +94,4 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+

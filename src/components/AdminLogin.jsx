@@ -3,18 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
+const AdminLogin = () => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, isAdmin } = useAuth();
+  const { setIsAdminLogged } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!email || !password) {
+    if (!username || !password) {
       setError('Por favor, preencha todos os campos');
       return;
     }
@@ -23,16 +23,19 @@ const Login = () => {
     setError('');
 
     try {
-      const { error } = await signIn(email, password);
-      if (error) {
-        setError('Email ou senha incorretos');
+      // Verificar credenciais de admin
+      const validCredentials = {
+        'admin': 'AdminMaisDeNos2025',
+        'gestao': 'GestaoMaisDeNos2025',
+        'contato': 'ContatoMaisDeNos2025'
+      };
+
+      if (validCredentials[username.toLowerCase()] === password) {
+        // Login bem-sucedido
+        setIsAdminLogged(true);
+        navigate('/crm');
       } else {
-        // Redirecionar baseado no tipo de usuário
-        if (isAdmin) {
-          navigate('/crm');
-        } else {
-          navigate('/');
-        }
+        setError('Usuário ou senha incorretos');
       }
     } catch (err) {
       setError('Erro ao fazer login. Tente novamente.');
@@ -45,24 +48,21 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h2>Entrar</h2>
-          <p>Faça login para acessar o sistema</p>
-          <div className="login-type-separator">
-            <Link to="/admin-login" className="admin-link-discrete">Acesso Administrativo</Link>
-          </div>
+          <h2>Login Admin</h2>
+          <p>Acesso administrativo do sistema</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="error-message">{error}</div>}
           
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">Usuário</label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Digite seu usuário"
               required
             />
           </div>
@@ -74,19 +74,23 @@ const Login = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Sua senha"
+              placeholder="Digite sua senha"
               required
             />
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button 
+            type="submit" 
+            className="auth-button"
+            disabled={loading}
+          >
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
         <div className="auth-footer">
           <p>
-            Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+            <Link to="/login">← Voltar ao login normal</Link>
           </p>
           <p>
             <Link to="/">← Voltar ao início</Link>
@@ -97,5 +101,4 @@ const Login = () => {
   );
 };
 
-export default Login;
-
+export default AdminLogin;

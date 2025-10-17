@@ -9,8 +9,7 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    phone: '',
-    organization: ''
+    phone: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -49,8 +48,7 @@ const Register = () => {
     try {
       const { error } = await signUp(formData.email, formData.password, {
         name: formData.name,
-        phone: formData.phone,
-        organization: formData.organization
+        phone: formData.phone
       });
       
       if (error) {
@@ -116,17 +114,6 @@ const Register = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="organization">Organização</label>
-            <input
-              type="text"
-              id="organization"
-              name="organization"
-              value={formData.organization}
-              onChange={handleChange}
-              placeholder="Nome da sua organização"
-            />
-          </div>
 
           <div className="form-group">
             <label htmlFor="password">Senha *</label>
@@ -173,3 +160,4 @@ const Register = () => {
 };
 
 export default Register;
+

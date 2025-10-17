@@ -124,8 +124,7 @@ const Impact = () => {
           </h2>
 
           <p className="section-description">
-            Junte-se a nós nesta missão de amor! Seja +1 conosco e ajude a transformar 
-            vidas através do coração de Cristo. Sua dedicação faz toda a diferença!
+            Seja +1 conosco! Junte-se à nossa missão de amor e ajude a transformar vidas através de Cristo.
           </p>
         </div>
 
@@ -134,19 +133,19 @@ const Impact = () => {
             <div className="volunteer-card">
               <div className="volunteer-icon">✝️</div>
               <h3>Missão Cristã</h3>
-              <p>Levamos o amor de Jesus para tocar corações e transformar vidas</p>
+              <p>Amor de Jesus transformando vidas</p>
             </div>
 
             <div className="volunteer-card">
               <div className="volunteer-icon">👶</div>
               <h3>Foco nas Crianças</h3>
-              <p>Priorizamos o bem-estar e desenvolvimento das crianças</p>
+              <p>Priorizamos o bem-estar infantil</p>
             </div>
 
             <div className="volunteer-card">
               <div className="volunteer-icon">🤝</div>
               <h3>Cooperativismo</h3>
-              <p>Juntos somos mais fortes e podemos fazer a diferença</p>
+              <p>Juntos fazemos a diferença</p>
             </div>
           </div>
 

@@ -6,7 +6,7 @@ import './Header.css'
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { user, signOut } = useAuth()
+  const { user, signOut, isAdmin } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -84,38 +84,34 @@ const Header = () => {
           {isHomePage ? (
             <>
               <a onClick={() => scrollToSection('eventos')}>📅 Eventos</a>
-              <a onClick={() => scrollToSection('sobre')}>ℹ️ Sobre</a>
-              <a onClick={() => scrollToSection('voluntario')}>👥 Voluntários</a>
-              <a onClick={() => scrollToSection('galeria')}>📸 Galeria</a>
-              <a onClick={() => scrollToSection('doar')}>💝 Doar</a>
-              <a onClick={() => scrollToSection('faq')}>❓ FAQ</a>
-              <a onClick={() => scrollToSection('crm')}>📊 CRM</a>
+              {user && (
+                <>
+                  <a onClick={() => scrollToSection('sobre')}>ℹ️ Sobre</a>
+                  <a onClick={() => scrollToSection('voluntario')}>👥 Voluntários</a>
+                  <a onClick={() => scrollToSection('galeria')}>📸 Galeria</a>
+                  <a onClick={() => scrollToSection('doar')}>💝 Doar</a>
+                  <a onClick={() => scrollToSection('faq')}>❓ FAQ</a>
+                </>
+              )}
+            </>
+          ) : (
+            <Link to="/">🏠 Início</Link>
+          )}
+          
+          {user ? (
+            <>
+              {isAdmin && <Link to="/crm">CRM</Link>}
               <button 
-                className="btn-doar-header"
-                onClick={() => scrollToSection('doar')}
+                className="btn-logout-header"
+                onClick={handleLogout}
               >
-                💝 Quero Doar
+                Sair
               </button>
             </>
           ) : (
             <>
-              <Link to="/">🏠 Início</Link>
-              {user ? (
-                <>
-                  <Link to="/crm">📊 CRM</Link>
-                  <button 
-                    className="btn-logout-header"
-                    onClick={handleLogout}
-                  >
-                    🚪 Sair
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login">🔑 Entrar</Link>
-                  <Link to="/register">📝 Cadastrar</Link>
-                </>
-              )}
+              <Link to="/login">Entrar</Link>
+              <Link to="/register">Cadastrar</Link>
             </>
           )}
         </nav>

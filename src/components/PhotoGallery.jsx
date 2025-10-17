@@ -65,8 +65,7 @@ const PhotoGallery = () => {
             Nossos <span className="gradient-text">Momentos</span>
           </h2>
           <p className="gallery-description">
-            Cada sorriso, cada abraço, cada momento de alegria compartilhado. 
-            Estas são as histórias que nos movem e nos inspiram a continuar.
+            Momentos de alegria e amor compartilhados. Estas histórias nos inspiram a continuar.
           </p>
         </div>
 

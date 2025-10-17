@@ -15,23 +15,14 @@ const About = () => {
           </h2>
 
           <p className="about-text">
-            Um projeto social idealizado e enviado pelo coração de Cristo. Tudo começou em um 
-            jantar, onde compartilhamos as coisas boas que Deus estava fazendo em nossas vidas. 
-            Todos tinham o mesmo sentimento: <strong>o que vamos fazer para devolver isso que estamos recebendo?</strong>
+            Um projeto social idealizado pelo coração de Cristo. Tudo começou quando compartilhamos 
+            as bênçãos de Deus e pensamos: <strong>o que vamos fazer para devolver isso que estamos recebendo?</strong>
           </p>
 
           <p className="about-text">
-            Sem hesitar, pensamos em um projeto que tocasse o coração das famílias, não trazendo 
-            apenas brinquedos, insumos ou itens alimentares, mas sim trazendo <strong>CRISTO</strong>. 
-            Nossa estratégia é focar nas crianças, pois sabemos que para um bom pai, o acalento 
-            é o acolhimento ao filho.
-          </p>
-
-          <p className="about-text">
-            Iniciado no final de 2024, desenhamos nossa marca com traços de crianças, mantendo 
-            cores primárias, mostrando que <strong>a criança vem primeiro</strong> em nosso projeto. 
-            Não queremos foco nos mensageiros, mas sim no ato cooperativista - não é sobre os 
-            idealizadores, é sobre o ideal.
+            Nossa missão é tocar o coração das famílias através das crianças, trazendo não apenas 
+            assistência material, mas principalmente <strong>CRISTO</strong>. Sabemos que para um bom pai, 
+            o acalento é o acolhimento ao filho.
           </p>
 
           <div className="about-features">

@@ -10,6 +10,10 @@ const CRM = () => {
   const [inscricoes, setInscricoes] = useState([])
   const [doacoes, setDoacoes] = useState([])
   const [loading, setLoading] = useState(true)
+  const [voluntarioFilter, setVoluntarioFilter] = useState('todos')
+  const [selectedVoluntarios, setSelectedVoluntarios] = useState([])
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [modalAction, setModalAction] = useState(null)
   const [stats, setStats] = useState({
     totalVoluntarios: 0,
     totalEventos: 0,
@@ -146,6 +150,64 @@ const CRM = () => {
     }
   }
 
+  const updateMultipleVoluntariosStatus = async (ids, status) => {
+    try {
+      const { error } = await supabase
+        .from('voluntarios')
+        .update({ status })
+        .in('id', ids)
+
+      if (error) throw error
+
+      toast.success(`${ids.length} voluntários atualizados para ${status}`)
+      loadVoluntarios()
+      setSelectedVoluntarios([])
+      setShowConfirmModal(false)
+    } catch (error) {
+      console.error('Erro ao atualizar status:', error)
+      toast.error('Erro ao atualizar status dos voluntários')
+    }
+  }
+
+  const handleSelectVoluntario = (id) => {
+    setSelectedVoluntarios(prev => 
+      prev.includes(id) 
+        ? prev.filter(volId => volId !== id)
+        : [...prev, id]
+    )
+  }
+
+  const handleSelectAllVoluntarios = () => {
+    const filteredVoluntarios = getFilteredVoluntarios()
+    const allSelected = filteredVoluntarios.every(v => selectedVoluntarios.includes(v.id))
+    
+    if (allSelected) {
+      setSelectedVoluntarios([])
+    } else {
+      setSelectedVoluntarios(filteredVoluntarios.map(v => v.id))
+    }
+  }
+
+  const handleBulkAction = (action) => {
+    if (selectedVoluntarios.length === 0) {
+      toast.warning('Selecione pelo menos um voluntário')
+      return
+    }
+    setModalAction(action)
+    setShowConfirmModal(true)
+  }
+
+  const confirmBulkAction = () => {
+    if (modalAction) {
+      updateMultipleVoluntariosStatus(selectedVoluntarios, modalAction)
+    }
+  }
+
+  const getFilteredVoluntarios = () => {
+    if (voluntarioFilter === 'todos') return voluntarios
+    return voluntarios.filter(v => v.status === voluntarioFilter)
+  }
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {
       day: '2-digit',
@@ -181,7 +243,6 @@ const CRM = () => {
       <div className="crm-container">
         <div className="crm-header">
           <div className="section-tag">
-            <span className="tag-icon">📊</span>
             <span>CRM Dashboard</span>
           </div>
           <h2 className="section-title">
@@ -197,31 +258,31 @@ const CRM = () => {
             className={`tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
             onClick={() => setActiveTab('dashboard')}
           >
-            📊 Dashboard
+            Dashboard
           </button>
           <button 
             className={`tab-btn ${activeTab === 'voluntarios' ? 'active' : ''}`}
             onClick={() => setActiveTab('voluntarios')}
           >
-            👥 Voluntários
+            Voluntários
           </button>
           <button 
             className={`tab-btn ${activeTab === 'eventos' ? 'active' : ''}`}
             onClick={() => setActiveTab('eventos')}
           >
-            📅 Eventos
+            Eventos
           </button>
           <button 
             className={`tab-btn ${activeTab === 'doacoes' ? 'active' : ''}`}
             onClick={() => setActiveTab('doacoes')}
           >
-            💰 Doações
+            Doações
           </button>
           <button 
             className={`tab-btn ${activeTab === 'inscricoes' ? 'active' : ''}`}
             onClick={() => setActiveTab('inscricoes')}
           >
-            📝 Inscrições
+            Inscrições
           </button>
         </div>
 
@@ -229,7 +290,6 @@ const CRM = () => {
           {activeTab === 'dashboard' && (
             <div className="dashboard-grid">
               <div className="stat-card">
-                <div className="stat-icon">👥</div>
                 <div className="stat-content">
                   <h3>{stats.totalVoluntarios}</h3>
                   <p>Total de Voluntários</p>
@@ -238,7 +298,6 @@ const CRM = () => {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon">📅</div>
                 <div className="stat-content">
                   <h3>{stats.totalEventos}</h3>
                   <p>Total de Eventos</p>
@@ -247,7 +306,6 @@ const CRM = () => {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon">📝</div>
                 <div className="stat-content">
                   <h3>{stats.totalInscricoes}</h3>
                   <p>Total de Inscrições</p>
@@ -256,7 +314,6 @@ const CRM = () => {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon">💰</div>
                 <div className="stat-content">
                   <h3>{stats.totalDoacoes}</h3>
                   <p>Total de Doações</p>
@@ -272,9 +329,6 @@ const CRM = () => {
                     .slice(0, 5)
                     .map((item, index) => (
                       <div key={index} className="activity-item">
-                        <div className="activity-icon">
-                          {item.nome ? '👤' : item.titulo ? '📅' : '📝'}
-                        </div>
                         <div className="activity-content">
                           <p>
                             {item.nome ? `Novo voluntário: ${item.nome}` :
@@ -293,15 +347,75 @@ const CRM = () => {
           {activeTab === 'voluntarios' && (
             <div className="data-table-container">
               <div className="table-header">
-                <h3>Voluntários Cadastrados</h3>
-                <button className="btn-refresh" onClick={loadVoluntarios}>
-                  🔄 Atualizar
-                </button>
+                <div className="header-left">
+                  <h3>Voluntários Cadastrados</h3>
+                  <div className="volunteer-stats">
+                    <span className="stat-item">
+                      <strong>{voluntarios.filter(v => v.status === 'pendente').length}</strong> Pendentes
+                    </span>
+                    <span className="stat-item">
+                      <strong>{voluntarios.filter(v => v.status === 'aprovado').length}</strong> Aprovados
+                    </span>
+                    <span className="stat-item">
+                      <strong>{voluntarios.filter(v => v.status === 'rejeitado').length}</strong> Rejeitados
+                    </span>
+                  </div>
+                </div>
+                <div className="header-right">
+                  <button className="btn-refresh" onClick={loadVoluntarios}>
+                    Atualizar
+                  </button>
+                </div>
               </div>
+
+              <div className="filters-section">
+                <div className="filter-group">
+                  <label>Filtrar por status:</label>
+                  <select 
+                    value={voluntarioFilter} 
+                    onChange={(e) => setVoluntarioFilter(e.target.value)}
+                    className="filter-select"
+                  >
+                    <option value="todos">Todos ({voluntarios.length})</option>
+                    <option value="pendente">Pendentes ({voluntarios.filter(v => v.status === 'pendente').length})</option>
+                    <option value="aprovado">Aprovados ({voluntarios.filter(v => v.status === 'aprovado').length})</option>
+                    <option value="rejeitado">Rejeitados ({voluntarios.filter(v => v.status === 'rejeitado').length})</option>
+                  </select>
+                </div>
+
+                {selectedVoluntarios.length > 0 && (
+                  <div className="bulk-actions">
+                    <span className="selected-count">
+                      {selectedVoluntarios.length} selecionado(s)
+                    </span>
+                    <button 
+                      className="btn-bulk-approve"
+                      onClick={() => handleBulkAction('aprovado')}
+                    >
+                      Aprovar Selecionados
+                    </button>
+                    <button 
+                      className="btn-bulk-reject"
+                      onClick={() => handleBulkAction('rejeitado')}
+                    >
+                      Rejeitar Selecionados
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="table-wrapper">
                 <table className="data-table">
                   <thead>
                     <tr>
+                      <th>
+                        <input 
+                          type="checkbox" 
+                          checked={getFilteredVoluntarios().length > 0 && getFilteredVoluntarios().every(v => selectedVoluntarios.includes(v.id))}
+                          onChange={handleSelectAllVoluntarios}
+                          className="checkbox-select-all"
+                        />
+                      </th>
                       <th>Nome</th>
                       <th>Email</th>
                       <th>Telefone</th>
@@ -313,8 +427,16 @@ const CRM = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {voluntarios.map((voluntario) => (
-                      <tr key={voluntario.id}>
+                    {getFilteredVoluntarios().map((voluntario) => (
+                      <tr key={voluntario.id} className={selectedVoluntarios.includes(voluntario.id) ? 'selected' : ''}>
+                        <td>
+                          <input 
+                            type="checkbox" 
+                            checked={selectedVoluntarios.includes(voluntario.id)}
+                            onChange={() => handleSelectVoluntario(voluntario.id)}
+                            className="checkbox-row"
+                          />
+                        </td>
                         <td>{voluntario.nome}</td>
                         <td>{voluntario.email}</td>
                         <td>{voluntario.telefone}</td>
@@ -334,15 +456,31 @@ const CRM = () => {
                                   className="btn-approve"
                                   onClick={() => updateVoluntarioStatus(voluntario.id, 'aprovado')}
                                 >
-                                  ✅
+                                  Aprovar
                                 </button>
                                 <button 
                                   className="btn-reject"
                                   onClick={() => updateVoluntarioStatus(voluntario.id, 'rejeitado')}
                                 >
-                                  ❌
+                                  Rejeitar
                                 </button>
                               </>
+                            )}
+                            {voluntario.status === 'aprovado' && (
+                              <button 
+                                className="btn-reject"
+                                onClick={() => updateVoluntarioStatus(voluntario.id, 'rejeitado')}
+                              >
+                                Rejeitar
+                              </button>
+                            )}
+                            {voluntario.status === 'rejeitado' && (
+                              <button 
+                                className="btn-approve"
+                                onClick={() => updateVoluntarioStatus(voluntario.id, 'aprovado')}
+                              >
+                                Aprovar
+                              </button>
                             )}
                           </div>
                         </td>
@@ -359,7 +497,7 @@ const CRM = () => {
               <div className="table-header">
                 <h3>Eventos Cadastrados</h3>
                 <button className="btn-refresh" onClick={loadEventos}>
-                  🔄 Atualizar
+                  Atualizar
                 </button>
               </div>
               <div className="table-wrapper">
@@ -412,7 +550,7 @@ const CRM = () => {
               <div className="table-header">
                 <h3>Doações Recebidas</h3>
                 <button className="btn-refresh" onClick={loadDoacoes}>
-                  🔄 Atualizar
+                  Atualizar
                 </button>
               </div>
               <div className="table-wrapper">
@@ -453,7 +591,7 @@ const CRM = () => {
               <div className="table-header">
                 <h3>Inscrições em Eventos</h3>
                 <button className="btn-refresh" onClick={loadInscricoes}>
-                  🔄 Atualizar
+                  Atualizar
                 </button>
               </div>
               <div className="table-wrapper">

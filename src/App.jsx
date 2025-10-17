@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Events from './components/Events'
@@ -15,8 +16,10 @@ import CRM from './components/CRM'
 import Footer from './components/Footer'
 import Login from './components/Login'
 import Register from './components/Register'
+import AdminLogin from './components/AdminLogin'
 import CRMPage from './pages/CRMPage'
 import Home from './pages/Home'
+import EventRegistration from './pages/EventRegistration'
 import EmailTest from './components/EmailTest'
 import SimpleEmailTest from './components/SimpleEmailTest'
 import RealEmailTest from './components/RealEmailTest'
@@ -35,6 +38,10 @@ function App() {
             {/* Rotas de autenticação */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            
+            {/* Rota de inscrição em eventos */}
+            <Route path="/evento/:eventId/inscricao" element={<EventRegistration />} />
             
             {/* Rotas de teste de emails */}
             <Route path="/test-email" element={<EmailTest />} />
@@ -42,13 +49,13 @@ function App() {
             <Route path="/test-email-real" element={<RealEmailTest />} />
             <Route path="/test-web3forms" element={<Web3FormsTest />} />
             
-            {/* Rota protegida - CRM */}
+            {/* Rota protegida - CRM (apenas para admins) */}
             <Route 
               path="/crm" 
               element={
-                <ProtectedRoute>
+                <AdminRoute>
                   <CRMPage />
-                </ProtectedRoute>
+                </AdminRoute>
               } 
             />
           </Routes>

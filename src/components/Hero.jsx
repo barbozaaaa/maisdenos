@@ -41,24 +41,15 @@ const Hero = () => {
           <div className="hero-stats">
             <div className="stat-item">
               <div className="stat-icon">✝️</div>
-              <div className="stat-content">
-                <h3>Cristo</h3>
-                <p>Nossa essência</p>
-              </div>
+              <h3>Cristo</h3>
             </div>
             <div className="stat-item">
               <div className="stat-icon">👶</div>
-              <div className="stat-content">
-                <h3>Crianças</h3>
-                <p>Nosso foco</p>
-              </div>
+              <h3>Crianças</h3>
             </div>
             <div className="stat-item">
               <div className="stat-icon">🤝</div>
-              <div className="stat-content">
-                <h3>+1</h3>
-                <p>Sempre juntos</p>
-              </div>
+              <h3>+1</h3>
             </div>
           </div>
 

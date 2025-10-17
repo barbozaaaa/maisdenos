@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { toast } from 'react-toastify'
 import './Events.css'
 
 const Events = () => {
+  const navigate = useNavigate()
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
-  const [registrationData, setRegistrationData] = useState({
-    nome: '',
-    email: '',
-    telefone: ''
-  })
 
   // Carregar eventos do banco de dados
   useEffect(() => {
@@ -107,73 +104,8 @@ const Events = () => {
     setSelectedEvent(null)
   }
 
-  const handleRegistrationChange = (e) => {
-    setRegistrationData({
-      ...registrationData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const registerForEvent = async (eventId) => {
-    if (!registrationData.nome || !registrationData.email || !registrationData.telefone) {
-      toast.error('Por favor, preencha todos os campos obrigatórios.', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
-      return
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from('inscricoes_eventos')
-        .insert([
-          {
-            evento_id: eventId,
-            nome: registrationData.nome,
-            email: registrationData.email,
-            telefone: registrationData.telefone
-          }
-        ])
-
-      if (error) {
-        throw error
-      }
-
-      toast.success('Inscrição realizada com sucesso! Entraremos em contato em breve.', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
-
-      // Recarregar eventos para atualizar as vagas
-      await loadEvents()
-      closeEventModal()
-      
-      // Limpar dados do formulário
-      setRegistrationData({
-        nome: '',
-        email: '',
-        telefone: ''
-      })
-
-    } catch (error) {
-      console.error('Erro ao inscrever no evento:', error)
-      toast.error('Erro ao realizar inscrição. Tente novamente.', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
-    }
+  const goToRegistration = (eventId) => {
+    navigate(`/evento/${eventId}/inscricao`)
   }
 
   return (
@@ -190,8 +122,7 @@ const Events = () => {
           </h2>
 
           <p className="section-description">
-            Junte-se a nós em ações que transformam vidas! Cada evento é uma oportunidade 
-            de compartilhar amor e fazer a diferença na comunidade.
+            Participe de nossas ações que transformam vidas! Cada evento é uma oportunidade de compartilhar amor.
           </p>
         </div>
 
@@ -240,8 +171,6 @@ const Events = () => {
                     <span className="location-text">{event.local}</span>
                   </div>
 
-                  <p className="event-description">{event.descricao}</p>
-
                   <div className="event-stats">
                     <div className="spots-info">
                       <span className="spots-icon">👥</span>
@@ -277,7 +206,7 @@ const Events = () => {
             className="btn-events"
             onClick={() => document.getElementById('voluntario').scrollIntoView({ behavior: 'smooth' })}
           >
-            📧 Cadastre-se como Voluntário
+            🤝 Seja Voluntário
           </button>
         </div>
       </div>
@@ -341,51 +270,11 @@ const Events = () => {
                 <p>{selectedEvent.descricao}</p>
               </div>
 
-              {selectedEvent.status === 'aberto' && (
-                <div className="registration-form">
-                  <h4>Dados para Inscrição</h4>
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label htmlFor="modal-nome">Nome Completo *</label>
-                      <input
-                        type="text"
-                        id="modal-nome"
-                        name="nome"
-                        value={registrationData.nome}
-                        onChange={handleRegistrationChange}
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="modal-email">E-mail *</label>
-                      <input
-                        type="email"
-                        id="modal-email"
-                        name="email"
-                        value={registrationData.email}
-                        onChange={handleRegistrationChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="modal-telefone">Telefone *</label>
-                    <input
-                      type="tel"
-                      id="modal-telefone"
-                      name="telefone"
-                      value={registrationData.telefone}
-                      onChange={handleRegistrationChange}
-                      required
-                    />
-                  </div>
-                </div>
-              )}
 
               <div className="modal-actions">
                 <button 
                   className="btn-register"
-                  onClick={() => registerForEvent(selectedEvent.id)}
+                  onClick={() => goToRegistration(selectedEvent.id)}
                   disabled={selectedEvent.status !== 'aberto'}
                 >
                   {selectedEvent.status === 'aberto' ? 'Quero Participar' : 

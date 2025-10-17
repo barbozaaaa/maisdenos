@@ -6,7 +6,6 @@ import Impact from '../components/Impact'
 import PhotoGallery from '../components/PhotoGallery'
 import DonationForm from '../components/DonationForm'
 import FAQ from '../components/FAQ'
-import CRM from '../components/CRM'
 import Footer from '../components/Footer'
 
 const Home = () => {
@@ -20,7 +19,6 @@ const Home = () => {
       <PhotoGallery />
       <DonationForm />
       <FAQ />
-      <CRM />
       <Footer />
     </>
   )
