@@ -38,20 +38,19 @@ const Header = () => {
           </div>
         </div>
 
-        <nav className="nav-menu">
-          {isHomePage ? (
-            <>
-              <a onClick={() => scrollToSection('eventos')}>Eventos</a>
-              <a onClick={() => scrollToSection('sobre')}>Sobre</a>
-              <a onClick={() => scrollToSection('voluntario')}>Voluntários</a>
-              <a onClick={() => scrollToSection('galeria')}>Galeria</a>
-              <a onClick={() => scrollToSection('doar')}>Doar</a>
-              <a onClick={() => scrollToSection('faq')}>FAQ</a>
-            </>
-          ) : (
-            <Link to="/">Início</Link>
-          )}
-        </nav>
+               <nav className="nav-menu">
+                 {isHomePage ? (
+                   <>
+                     <a onClick={() => scrollToSection('eventos')}>Eventos</a>
+                     <a onClick={() => scrollToSection('sobre')}>Sobre</a>
+                     <a onClick={() => scrollToSection('voluntario')}>Voluntários</a>
+                     <a onClick={() => scrollToSection('galeria')}>Galeria</a>
+                     <a onClick={() => scrollToSection('doar')}>Doar</a>
+                   </>
+                 ) : (
+                   <Link to="/">Início</Link>
+                 )}
+               </nav>
       </div>
     </header>
   )
