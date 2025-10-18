@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { toast } from 'react-toastify'
 import { sendDonationConfirmation, notifyOrganizationDonation } from '../services/simpleEmailService'
 import './EmailTest.css'

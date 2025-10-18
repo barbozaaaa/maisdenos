@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { toast } from 'react-toastify'
 import { sendVolunteerConfirmation, notifyOrganizationVolunteer } from '../services/simpleEmailService'
 import './Impact.css'
@@ -31,24 +30,17 @@ const Impact = () => {
     setIsSubmitting(true)
     
     try {
-      const { data, error } = await supabase
-        .from('voluntarios')
-        .insert([
-          {
-            nome: formData.nome,
-            email: formData.email,
-            telefone: formData.telefone,
-            idade: parseInt(formData.idade),
-            area_interesse: formData.areaInteresse,
-            disponibilidade: formData.disponibilidade,
-            experiencia: formData.experiencia || null,
-            motivacao: formData.motivacao
-          }
-        ])
-
-      if (error) {
-        throw error
-      }
+      // Simular salvamento de voluntário (sem Supabase)
+      console.log('Voluntário registrado:', {
+        nome: formData.nome,
+        email: formData.email,
+        telefone: formData.telefone,
+        idade: parseInt(formData.idade),
+        area_interesse: formData.areaInteresse,
+        disponibilidade: formData.disponibilidade,
+        experiencia: formData.experiencia || null,
+        motivacao: formData.motivacao
+      })
 
       // Enviar emails de confirmação
       try {

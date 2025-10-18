@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { toast } from 'react-toastify'
 import { sendDonationConfirmation, notifyOrganizationDonation } from '../services/professionalEmailService'
 import './DonationForm.css'
@@ -38,20 +37,15 @@ const DonationForm = () => {
     setLoading(true)
 
     try {
-      const { data, error } = await supabase
-        .from('doacoes')
-        .insert([
-          {
-            nome_doador: formData.nome,
-            email_doador: formData.email,
-            telefone_doador: formData.telefone,
-            tipo_doacao: formData.tipoDoacao,
-            descricao: formData.descricao,
-            valor: formData.tipoDoacao === 'dinheiro' && formData.valor ? parseFloat(formData.valor) : null
-          }
-        ])
-
-      if (error) throw error
+      // Simular salvamento de doação (sem Supabase)
+      console.log('Doação registrada:', {
+        nome_doador: formData.nome,
+        email_doador: formData.email,
+        telefone_doador: formData.telefone,
+        tipo_doacao: formData.tipoDoacao,
+        descricao: formData.descricao,
+        valor: formData.tipoDoacao === 'dinheiro' && formData.valor ? parseFloat(formData.valor) : null
+      })
 
       // Enviar emails de confirmação
       try {

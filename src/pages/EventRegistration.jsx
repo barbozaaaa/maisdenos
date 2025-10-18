@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+;
 import { toast } from 'react-toastify';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -26,27 +26,21 @@ const EventRegistration = () => {
 
   const loadEvent = async () => {
     try {
-      const { data, error } = await supabase
-        .from('eventos')
-        .select('*')
-        .eq('id', eventId)
-        .single();
+      // Simular carregamento de evento (sem Supabase)
+      const mockEvent = {
+        id: eventId,
+        titulo: 'Evento de Exemplo',
+        descricao: 'Descrição do evento de exemplo',
+        data_evento: '2024-12-25',
+        hora_evento: '14:00',
+        local: 'Local do Evento',
+        vagas_totais: 50,
+        vagas_preenchidas: 25,
+        status: 'aberto',
+        imagem_url: null
+      };
 
-      if (error) throw error;
-
-      if (!data) {
-        toast.error('Evento não encontrado');
-        navigate('/');
-        return;
-      }
-
-      if (data.status !== 'aberto') {
-        toast.error('Este evento não está mais aceitando inscrições');
-        navigate('/');
-        return;
-      }
-
-      setEvent(data);
+      setEvent(mockEvent);
     } catch (error) {
       console.error('Erro ao carregar evento:', error);
       toast.error('Erro ao carregar informações do evento');
@@ -74,18 +68,13 @@ const EventRegistration = () => {
     setSubmitting(true);
 
     try {
-      const { data, error } = await supabase
-        .from('inscricoes_eventos')
-        .insert([
-          {
-            evento_id: eventId,
-            nome: registrationData.nome,
-            email: registrationData.email,
-            telefone: registrationData.telefone
-          }
-        ]);
-
-      if (error) throw error;
+      // Simular inscrição em evento (sem Supabase)
+      console.log('Inscrição registrada:', {
+        evento_id: eventId,
+        nome: registrationData.nome,
+        email: registrationData.email,
+        telefone: registrationData.telefone
+      });
 
       toast.success('Inscrição realizada com sucesso! Entraremos em contato em breve.', {
         autoClose: 5000
