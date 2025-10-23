@@ -129,6 +129,70 @@
 }
 
 /* ========================================
+   SEÇÃO INFORMATIVA SOBRE EVENTOS
+   ======================================== */
+
+/* Container para informações sobre eventos futuros */
+.events-info {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0;
+}
+
+/* Card informativo sobre eventos */
+.info-card {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  border: 2px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+/* Ícone do card informativo */
+.info-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}
+
+/* Título do card informativo */
+.info-card h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+}
+
+/* Texto do card informativo */
+.info-card p {
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.info-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lista de informações */
+.info-card p strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* ========================================
    CARD DO EVENTO
    ======================================== */
 
@@ -767,6 +831,23 @@
   
   .event-card {
     margin-bottom: 1rem;
+  }
+  
+  .events-info {
+    margin: 2rem 0;
+  }
+  
+  .info-card {
+    padding: 2rem 1.5rem;
+    margin: 0 1rem;
+  }
+  
+  .info-card h3 {
+    font-size: 1.5rem;
+  }
+  
+  .info-card p {
+    font-size: 1rem;
   }
   
   .events-cta {
