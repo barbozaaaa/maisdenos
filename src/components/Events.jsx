@@ -1,10 +1,22 @@
 import { useNavigate } from 'react-router-dom'
 import './Events.css'
 
+/**
+ * Componente Events - Seção de eventos da página inicial
+ * 
+ * Este componente exibe informações sobre eventos disponíveis para participação.
+ * Atualmente exibe um evento fixo (mock) já que não há eventos reais cadastrados.
+ * 
+ * Funcionalidades:
+ * - Exibe informações do evento (título, data, local, vagas)
+ * - Permite navegação para página de inscrição
+ * - Redireciona para seção de voluntários
+ */
 const Events = () => {
   const navigate = useNavigate()
 
-  // Evento fixo do dia 19
+  // TODO: Substituir por dados reais do banco quando houver eventos cadastrados
+  // Evento fixo do dia 19 - dados mockados para demonstração
   const evento = {
     id: 1,
     titulo: "Ação Social +1 Mais de Nós",
@@ -17,6 +29,11 @@ const Events = () => {
     tipo_evento: "acao_social"
   }
 
+  /**
+   * Formata a data para exibição em português brasileiro
+   * @param {string} dateString - Data no formato ISO (YYYY-MM-DD)
+   * @returns {string} Data formatada (ex: "19 de janeiro de 2024")
+   */
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('pt-BR', {
@@ -26,10 +43,19 @@ const Events = () => {
     })
   }
 
+  /**
+   * Formata o horário removendo os segundos
+   * @param {string} timeString - Horário no formato HH:MM:SS
+   * @returns {string} Horário formatado (ex: "10:00")
+   */
   const formatTime = (timeString) => {
     return timeString.substring(0, 5)
   }
 
+  /**
+   * Navega para a página de inscrição do evento
+   * TODO: Implementar rota real quando houver sistema de eventos
+   */
   const goToRegistration = () => {
     navigate(`/evento/${evento.id}/inscricao`)
   }
@@ -37,6 +63,7 @@ const Events = () => {
   return (
     <section id="eventos" className="events">
       <div className="events-container">
+        {/* Cabeçalho da seção de eventos */}
         <div className="events-header">
           <div className="section-tag">
             <span className="tag-icon">📅</span>
@@ -52,22 +79,27 @@ const Events = () => {
           </p>
         </div>
 
+        {/* Card do evento único - atualmente exibe evento mockado */}
         <div className="event-single">
           <div className="event-card">
             <div className="event-content">
+              {/* Data e horário do evento */}
               <div className="event-date">
                 <span className="date-icon">📅</span>
                 <span className="date-text">{formatDate(evento.data_evento)}</span>
                 <span className="time-text">{formatTime(evento.hora_evento)}</span>
               </div>
 
+              {/* Título do evento */}
               <h3 className="event-title">{evento.titulo}</h3>
 
+              {/* Local do evento */}
               <div className="event-location">
                 <span className="location-icon">📍</span>
                 <span className="location-text">{evento.local}</span>
               </div>
 
+              {/* Estatísticas de vagas com barra de progresso */}
               <div className="event-stats">
                 <div className="spots-info">
                   <span className="spots-icon">👥</span>
@@ -85,6 +117,7 @@ const Events = () => {
                 </div>
               </div>
 
+              {/* Botão para participar do evento */}
               <button className="event-btn" onClick={goToRegistration}>
                 <span>Participar</span>
                 <span className="btn-arrow">→</span>
@@ -93,6 +126,7 @@ const Events = () => {
           </div>
         </div>
 
+        {/* Call-to-action para se tornar voluntário */}
         <div className="events-cta">
           <p className="cta-text">
             Quer receber notificações sobre nossos eventos?

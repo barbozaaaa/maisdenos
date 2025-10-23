@@ -1,3 +1,8 @@
+/* ========================================
+   SEÇÃO DE EVENTOS - ESTILOS PRINCIPAIS
+   ======================================== */
+
+/* Container principal da seção de eventos */
 .events {
   padding: 6rem 0;
   background: linear-gradient(135deg, #f0f4ff 0%, #e8f2ff 100%);
@@ -5,6 +10,7 @@
   overflow: hidden;
 }
 
+/* Efeito de fundo com gradientes radiais para profundidade visual */
 .events::before {
   content: '';
   position: absolute;
@@ -18,6 +24,7 @@
   pointer-events: none;
 }
 
+/* Container principal com largura máxima e centralização */
 .events-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -26,12 +33,18 @@
   z-index: 1;
 }
 
+/* ========================================
+   CABEÇALHO DA SEÇÃO
+   ======================================== */
+
+/* Cabeçalho centralizado com animação de entrada */
 .events-header {
   text-align: center;
   margin-bottom: 4rem;
   animation: fadeInUp 1s ease-out;
 }
 
+/* Tag/badge do cabeçalho com gradiente e sombra */
 .section-tag {
   display: inline-flex;
   align-items: center;
@@ -46,10 +59,12 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
+/* Ícone da tag */
 .tag-icon {
   font-size: 1.1rem;
 }
 
+/* Título principal da seção */
 .section-title {
   font-family: 'Fredoka', sans-serif;
   font-size: 3rem;
@@ -59,6 +74,7 @@
   line-height: 1.2;
 }
 
+/* Texto destacado com gradiente animado */
 .highlight {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   background-size: 200% 100%;
@@ -68,6 +84,7 @@
   animation: gradientFlow 4s ease infinite;
 }
 
+/* Animação do gradiente fluindo */
 @keyframes gradientFlow {
   0%, 100% {
     background-position: 0% 50%;
@@ -77,6 +94,7 @@
   }
 }
 
+/* Descrição da seção */
 .section-description {
   font-size: 1.2rem;
   color: #666;
@@ -85,6 +103,11 @@
   margin: 0 auto;
 }
 
+/* ========================================
+   LAYOUT DOS EVENTOS
+   ======================================== */
+
+/* Grid para múltiplos eventos (não usado atualmente) */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -92,17 +115,24 @@
   margin-bottom: 4rem;
 }
 
+/* Container para evento único (layout atual) */
 .event-single {
   display: flex;
   justify-content: center;
   margin: 3rem 0;
 }
 
+/* Largura máxima do card quando usado em layout único */
 .event-single .event-card {
   max-width: 500px;
   width: 100%;
 }
 
+/* ========================================
+   CARD DO EVENTO
+   ======================================== */
+
+/* Card principal do evento com efeitos visuais */
 .event-card {
   background: white;
   border-radius: 20px;
@@ -115,18 +145,25 @@
   position: relative;
 }
 
+/* Efeito hover do card com elevação e escala */
 .event-card:hover {
   transform: translateY(-10px) scale(1.02);
   box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
   border-color: rgba(102, 126, 234, 0.3);
 }
 
+/* ========================================
+   ELEMENTOS DO CARD (imagem, tipo, status)
+   ======================================== */
+
+/* Container da imagem do evento */
 .event-image {
   position: relative;
   height: 200px;
   overflow: hidden;
 }
 
+/* Imagem do evento com efeito de zoom no hover */
 .event-image img {
   width: 100%;
   height: 100%;
@@ -138,6 +175,7 @@
   transform: scale(1.1);
 }
 
+/* Badge do tipo de evento (ex: "Ação Social") */
 .event-type {
   position: absolute;
   top: 15px;
@@ -154,10 +192,12 @@
   color: #333;
 }
 
+/* Ícone do tipo de evento */
 .type-icon {
   font-size: 1rem;
 }
 
+/* Badge de status do evento (ex: "Aberto", "Esgotado") */
 .event-status {
   position: absolute;
   top: 15px;
